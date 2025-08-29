@@ -2,6 +2,15 @@
 
 A comprehensive Node.js API system for gold investment question detection and digital gold purchase management. The system uses LLM (OpenAI) to identify gold-related questions and provides a complete digital gold purchase flow.
 
+## Live Deployment
+
+Base URL: `https://kuber-ai-components-git-main-tanukumar01s-projects.vercel.app`
+
+Quick links:
+- Health: `https://kuber-ai-components-git-main-tanukumar01s-projects.vercel.app/health`
+- Analyze question: `POST https://kuber-ai-components-git-main-tanukumar01s-projects.vercel.app/api/gold-question/analyze`
+- Purchase (one-step): `POST https://kuber-ai-components-git-main-tanukumar01s-projects.vercel.app/api/gold-purchase/purchase`
+
 ## Features
 
 ### 🧠 AI-Powered Question Detection
