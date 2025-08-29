@@ -101,6 +101,21 @@ Environment variables:
    npm start
    ```
 
+## Deploy to Vercel
+
+1. Ensure `vercel.json` exists (included).
+2. Push to GitHub (done) and import the repo in Vercel.
+3. In Vercel Project Settings → Environment Variables, add:
+   - `MONGODB_URI`
+   - `OPENROUTER_API_KEY`
+   - `JWT_SECRET`
+   - `DEFAULT_CURRENCY`, `EXCHANGE_RATE_USD_INR`
+   - optional: `GOLD_PRICE_PROVIDER`, `METALPRICE_API_KEY`, etc.
+4. Set Framework preset: “Other”. Build command: none. Output: auto.
+5. Deploy. Your API will be available at `https://<your-app>.vercel.app` with routes:
+   - `/health`
+   - `/api/gold-question/*`, `/api/gold-purchase/*`, `/api/user/*`, `/api/ai-models/*`
+
 ## API Endpoints
 
 ### Health Check
