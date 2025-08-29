@@ -1,0 +1,628 @@
+{
+  "info": {
+    "name": "Gold Investment API - OpenRouter Integration",
+    "description": "Complete API collection for testing Gold Investment API with OpenRouter integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "userEmail",
+      "value": "test@example.com",
+      "type": "string"
+    },
+    {
+      "key": "userPassword",
+      "value": "testpassword123",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "User Management",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"{{userEmail}}\",\n  \"phone\": \"+1234567890\",\n  \"password\": \"{{userPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/user/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "user", "register"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('authToken', response.data.token);",
+                  "    console.log('Token saved:', response.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{userEmail}}\",\n  \"password\": \"{{userPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/user/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "user", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('authToken', response.data.token);",
+                  "    console.log('Token saved:', response.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/user/profile?userEmail={{userEmail}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "user", "profile"],
+              "query": [
+                {
+                  "key": "userEmail",
+                  "value": "{{userEmail}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get User Portfolio",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/user/portfolio?userEmail={{userEmail}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "user", "portfolio"],
+              "query": [
+                {
+                  "key": "userEmail",
+                  "value": "{{userEmail}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add Money to Wallet",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"USER_ID_HERE\",\n  \"amount\": 1000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/user/wallet/add",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "user", "wallet", "add"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gold Question Analysis",
+      "item": [
+        {
+          "name": "Analyze Gold Question",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"What is the current gold price and should I invest in digital gold?\",\n  \"userEmail\": \"{{userEmail}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-question/analyze",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-question", "analyze"]
+            }
+          }
+        },
+        {
+          "name": "Get Gold Price",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-question/price",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-question", "price"]
+            }
+          }
+        },
+        {
+          "name": "Calculate Gold Cost",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"goldAmount\": 10.5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-question/calculate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-question", "calculate"]
+            }
+          }
+        },
+        {
+          "name": "Get Gold Price History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-question/history?days=30",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-question", "history"],
+              "query": [
+                {
+                  "key": "days",
+                  "value": "30"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Question Logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-question/logs?userEmail={{userEmail}}&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-question", "logs"],
+              "query": [
+                {
+                  "key": "userEmail",
+                  "value": "{{userEmail}}"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Digital Gold Purchase",
+      "item": [
+        {
+          "name": "Complete Purchase (One-step)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userEmail\": \"{{userEmail}}\",\n  \"goldAmount\": 5.0,\n  \"paymentMethod\": \"WALLET\",\n  \"notes\": \"Test purchase from Postman\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-purchase/purchase",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-purchase", "purchase"]
+            }
+          }
+        },
+        {
+          "name": "Initiate Purchase",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userEmail\": \"{{userEmail}}\",\n  \"goldAmount\": 3.0,\n  \"paymentMethod\": \"WALLET\",\n  \"notes\": \"Step 1: Initiate purchase\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-purchase/initiate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-purchase", "initiate"]
+            }
+          }
+        },
+        {
+          "name": "Process Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionId\": \"TXN_ID_FROM_INITIATE\",\n  \"paymentDetails\": {\n    \"method\": \"WALLET\",\n    \"amount\": 196.50\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-purchase/process-payment",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-purchase", "process-payment"]
+            }
+          }
+        },
+        {
+          "name": "Complete Purchase",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionId\": \"TXN_ID_FROM_INITIATE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-purchase/complete",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-purchase", "complete"]
+            }
+          }
+        },
+        {
+          "name": "Get Transaction History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-purchase/transactions?userEmail={{userEmail}}&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-purchase", "transactions"],
+              "query": [
+                {
+                  "key": "userEmail",
+                  "value": "{{userEmail}}"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Specific Transaction",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-purchase/transaction/TXN_ID_HERE",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-purchase", "transaction", "TXN_ID_HERE"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "AI Model Management",
+      "item": [
+        {
+          "name": "Get Available Models",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ai-models/available",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai-models", "available"]
+            }
+          }
+        },
+        {
+          "name": "Get Current Model",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ai-models/current",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai-models", "current"]
+            }
+          }
+        },
+        {
+          "name": "Switch to GPT-4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"modelKey\": \"gpt4o\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai-models/switch",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai-models", "switch"]
+            }
+          }
+        },
+        {
+          "name": "Switch to Claude Haiku",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"modelKey\": \"claude35Haiku\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai-models/switch",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai-models", "switch"]
+            }
+          }
+        },
+        {
+          "name": "Switch to Claude Sonnet",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"modelKey\": \"claude35Sonnet\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai-models/switch",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai-models", "switch"]
+            }
+          }
+        },
+        {
+          "name": "Get Recommended Models",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ai-models/recommended",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai-models", "recommended"]
+            }
+          }
+        },
+        {
+          "name": "Get Model Pricing",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ai-models/pricing",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai-models", "pricing"]
+            }
+          }
+        },
+        {
+          "name": "Get Specific Model Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ai-models/model/anthropic/claude-3.5-sonnet",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ai-models", "model", "anthropic", "claude-3.5-sonnet"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Test Different Question Types",
+      "item": [
+        {
+          "name": "Gold Related Question",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"What is the current gold price?\",\n  \"userEmail\": \"{{userEmail}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-question/analyze",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-question", "analyze"]
+            }
+          }
+        },
+        {
+          "name": "Investment Question",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"Should I invest in stocks or gold?\",\n  \"userEmail\": \"{{userEmail}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-question/analyze",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-question", "analyze"]
+            }
+          }
+        },
+        {
+          "name": "Non-Gold Question",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"What's the weather like today?\",\n  \"userEmail\": \"{{userEmail}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-question/analyze",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-question", "analyze"]
+            }
+          }
+        },
+        {
+          "name": "Cryptocurrency Question",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"Tell me about Bitcoin investment\",\n  \"userEmail\": \"{{userEmail}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/gold-question/analyze",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gold-question", "analyze"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
