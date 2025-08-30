@@ -1,6 +1,6 @@
 # Gold Investment API System
 
-A comprehensive Node.js API system for gold investment question detection and digital gold purchase management. The system uses LLM (OpenAI) to identify gold-related questions and provides a complete digital gold purchase flow.
+A comprehensive Node.js API system for gold investment question detection and digital gold purchase management. The system uses LLM (OpenRouter) to identify gold-related questions and provides a complete digital gold purchase flow.
 
 ## Live Deployment
 
@@ -64,7 +64,7 @@ Environment variables:
 
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB with Mongoose ODM
-- **AI/LLM**: OpenRouter with Claude 3.5 Sonnet
+- **AI/LLM**: OpenRouter with Claude 3.5 Sonnet (supports multiple models)
 - **Authentication**: JWT (JSON Web Tokens)
 - **Security**: bcryptjs for password hashing
 
@@ -96,9 +96,9 @@ Environment variables:
    ```env
    PORT=3000
    NODE_ENV=development
-       MONGODB_URI=mongodb://localhost:27017/gold_investment_db
-    OPENROUTER_API_KEY=your_openrouter_api_key_here
-    JWT_SECRET=your_jwt_secret_key_here
+   MONGODB_URI=mongodb://localhost:27017/gold_investment_db
+   OPENROUTER_API_KEY=your_openrouter_api_key_here
+   JWT_SECRET=your_jwt_secret_key_here
    ```
 
 4. **Start the server**
